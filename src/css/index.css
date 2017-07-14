@@ -1,0 +1,116 @@
+#yb_top {
+  width: 100%;
+  background: #3085d5;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+#yb_top:hover {
+  background: #a1a;
+}
+.yb-header {
+  width: 100%;
+}
+.yb-nav-logo {
+  margin: 0 0 0 2%;
+  height: 60px;
+}
+.yb-nav-logo img {
+  display: block;
+  height: 60px;
+}
+.yb-nav-list-item a {
+  display: inline-block;
+  min-width: 40px;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  color: #333;
+  text-align: center;
+  -webkit-transition: background-color 1s ease, color 1s ease;
+  transition: background-color 1s ease, color 1s ease;
+  font-size: 18px;
+}
+.yb-nav-list-item a:hover {
+  background: #f7f8f9;
+  color: #f00;
+}
+.yb-nav-button {
+  display: none;
+  margin: 0 2% 0 0;
+}
+.yb-nav-button-hamburger {
+  -webkit-transition: background-color 1s ease, color 1s ease;
+  transition: background-color 1s ease, color 1s ease;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 60px;
+  width: 60px;
+  line-height: 60px;
+  padding: 18px 10px;
+  border-radius: 5px;
+  color: #aaa;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: #a1a2a3;
+  -webkit-touch-callout: none;
+}
+.yb-nav-button-hamburger:hover {
+  cursor: pointer;
+  background: #a1a;
+}
+.yb-nav-button-hamburger span {
+  display: block;
+  background-color: #fff;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  margin-bottom: 5px;
+}
+.yb-shows {
+  width: 100%;
+  height: 600px;
+  background: url(../images/cat.jpg) no-repeat center center;
+  background-size: 100% 100%;
+}
+/* 媒体查询 */
+@media screen and (max-width: 768px) {
+  body {
+    min-width: 320px;
+  }
+  .yb-nav {
+    position: relative;
+  }
+  .yb-nav-list {
+    float: none;
+    position: absolute;
+    z-index: 4;
+    width: 100%;
+    background: #3085d5;
+    margin-top: 60px;
+    left: 0;
+    top: 0;
+    display: none;
+    -webkit-transition: height 0.5s ease;
+    transition: height 0.5s ease;
+  }
+  .yb-nav-list.on {
+    display: block;
+  }
+  .yb-nav-list-item {
+    float: none;
+  }
+  .yb-nav-list-item a {
+    width: 100%;
+    padding: 0 0 0 0;
+    text-align: left;
+    text-indent: 48px;
+  }
+  .yb-nav-button {
+    display: block;
+  }
+  .yb-shows {
+    height: 480px;
+  }
+}
