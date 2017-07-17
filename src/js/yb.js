@@ -224,17 +224,136 @@ YB.Util = {
             return (r1/r2)*pow(10,t2 - t1);
         }
     }
+};
+
+YB.browser = {
+    versions: function () {
+        var u = navigator.userAgent,app = navigator.appVersion;
+        //移动终端浏览器版本信息
+        return {
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+            mobile: (!!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/)) && u.indexOf('Windows NT') < 0, //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+            iPhone: u.indexOf('iPhone') > -1,// || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf('iPad') > -1, //是否iPad
+            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+        }
+    },
+    language:(navigator.browserLanguage || navigator.language).toLowerCase()
 }
 
-/* 菜单切换 */
-YB.menu = {
-    mbMenu: function () {
-        $('#menu_button').on('click',function () {
+var validator = {
+    userName: function (value) {
+        //4到16位，数字下划线，减号
+        var reg = /^[a-zA-Z0-9_-]{4,16}$/;
+        return reg.test(value);
+    },
+    password: function (value) {
+        //最少六位，包括一个大写字母，一个小写字母，一个数字一个特殊字符
+        var reg = /^.*(?=.{6,})(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*? ]).*$/;
+        return reg.test(value);
+    },
+    numInt: function (value) {
+        var reg = /^-?\d+$/;
+        return reg.test(value);
+    },
+    num: function (value) {
+        var reg = /^-?\d*\.?\d+$/;
+        return reg.test(value);
+    },
+    email: function (value) {
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        return reg.test(value);
+    },
+    phone: function (value) {
+        var reg = /^1[34578]\d{9}$/;
+        return reg.test(value);
+    },
+    url: function (value) {
+        var reg = /^((https?|ftp|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+        return reg.test(value);
+    },
+    ipv4: function (value) {
+        var reg = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        return reg.test(value);
+    },
+    rgb: function (value) {
+        var reg = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+        return reg.test(value);
+    },
+    date: function (value) {
+        //2017-01-02
+        var reg = /^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$/;
+        return reg.test(value);
+    },
+    qq: function (value) {
+        var reg = /^[1-9][0-9]{4,10}$/;
+        return reg.test(value);
+    },
+    wx: function (value) {
+        //字母开头，字母，谁，减号，下划线。6到20位，
+        var reg = /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/;
+        return reg.test(value);
+    },
+    carNum: function (value) {
+        //车牌号
+        var reg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+        return reg.test(value);
+    },
+    chinese: function (value) {
+        var reg = /[\u4E00-\u9FA5]/;
+        return reg.test(value);
+    }
+}
+var consolelogurl = YB.basePath + 'images/logo.jpg'
+console.log("%c          ","font-size:80px;background:url('"+consolelogurl+"') no-repeat 100px 10px");
+var menu = {
+    initEvent: function () {
+        $('#menu_button').bind('click',function () {
             $('.yb-nav-list').toggleClass('on');
         });
+    },
+    initNavMouseEvent: function () {
+        $('.yb-nav-list-item').unbind('click');
+        $('.yb-nav-list-item').mouseenter(function() {
+            $(this).find('.yb-nav-list-item-nav2').addClass('on');
+        });
+        $('.yb-nav-list-item').mouseleave(function () {
+            $(this).find('.yb-nav-list-item-nav2').removeClass('on');
+        });
+    },
+    initNavClickEvent: function () {
+        $('.yb-nav-list-item').unbind('mouseenter');
+        $('.yb-nav-list-item').unbind('mouseleave');
+        $('.yb-nav-list-item').on('click',function (e) {
+            e.stopPropagation();
+            if ($(this).find('.yb-nav-list-item-nav2').hasClass('on')) {
+                $(this).find('.yb-nav-list-item-nav2').removeClass('on');
+            } else {
+                $(this).find('.yb-nav-list-item-nav2').addClass('on');
+            }
+        })
+    },
+    mbMenu: function () {
+        var _self = this;
+        var cWidth = $(window).width();
+        console.log(cWidth);
+        if (cWidth > 798) {
+            _self.initNavMouseEvent();
+        } else {
+            _self.initNavClickEvent();
+        }
     }
 }
 $(function () {
-    YB.menu.mbMenu();
+    menu.mbMenu();
+    menu.initEvent();
+    $(window).resize(function () {
+        menu.mbMenu();
+    })
 })
 

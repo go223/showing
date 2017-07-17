@@ -26,6 +26,37 @@
         }
         &-list{
             &-item{
+                position:relative;
+
+                &-nav2{
+                    position:absolute;
+                    top:100%;
+                    left:0;
+                    background-color: @blue;
+                    z-index:10;
+                    display: none;
+                    li{
+                        width:120px;
+                        height:40px;
+                        line-height:40px;
+                        text-indent:20px;
+                        font-size:16px;
+                        color:#333;
+                        transition: background-color 0.3s ease-in,color 0.3s ease,height 0.3s ease;
+
+                        &:hover{
+                            background:#a1a;
+                            color:#ffffff;
+                            cursor:pointer;
+                        }
+                    }
+                }
+                &-nav2.on{
+                    display:block;
+                }
+                &-nav2.off{
+                    display:none;
+                }
                 a{
                     display:inline-block;
                     min-width:@nav-min-width;
@@ -36,10 +67,11 @@
                     text-align: center;
                     transition: background-color 1s ease,color 1s ease;
                     font-size:18px;
-                }
-                a:hover{
-                    background: #f7f8f9;
-                    color:#f00;
+
+                    &:hover{
+                        background: #f7f8f9;
+                        color:#f00;
+                    }
                 }
             }
         }
@@ -111,6 +143,14 @@
                         padding:0 0 0 0;
                         text-align: left;
                         text-indent: 48px;
+                    }
+                    &-nav2{
+                        position: static;
+
+                        li{
+                            width:100%;
+                            text-indent: 80px;
+                        }
                     }
                 }
             }
